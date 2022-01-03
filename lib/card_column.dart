@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 class cardColumn extends StatelessWidget {
 
   cardColumn({required this.icon , required this.label});
@@ -21,9 +23,7 @@ class cardColumn extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(
-            color: Color(0xFFFFFFFF),
-          ),
+          style: KLabelStyle,
         )
       ],
     );

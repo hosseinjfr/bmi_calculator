@@ -1,18 +1,12 @@
+import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'ReusableCard.dart';
-import 'cardColumn.dart';
+import 'reusable_card.dart';
+import 'card_column.dart';
 
-const bottomContainerHeight = 60.0;
-const bottomContainerColor = Color(0xFFEB1555);
-const bottomContainerMargin = EdgeInsets.only(top: 10.0);
-
-const activeCardColor = Color(0xFFEB1555);
-const inactiveCardColor = Color(0xFF0A0E21);
-
-Color maleCardColor = activeCardColor;
-Color femaleCardColor = inactiveCardColor;
+Color maleCardColor = KActiveCardColor;
+Color femaleCardColor = KInactiveCardColor;
 
 enum Gender { male, female }
 
@@ -24,8 +18,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-
   Gender selectedGender = Gender.male;
+  int height = 150;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +30,7 @@ class _InputPageState extends State<InputPage> {
       ),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Row(
@@ -48,7 +43,9 @@ class _InputPageState extends State<InputPage> {
                         });
                       },
                       child: ReusableContainer(
-                        colour: selectedGender == Gender.male ? activeCardColor : inactiveCardColor,
+                        colour: selectedGender == Gender.male
+                            ? KActiveCardColor
+                            : KInactiveCardColor,
                         cardChild: cardColumn(
                           icon: FontAwesomeIcons.mars,
                           label: 'MALE',
@@ -64,7 +61,9 @@ class _InputPageState extends State<InputPage> {
                         });
                       },
                       child: ReusableContainer(
-                        colour: selectedGender == Gender.female ? activeCardColor : inactiveCardColor,
+                        colour: selectedGender == Gender.female
+                            ? KActiveCardColor
+                            : KInactiveCardColor,
                         cardChild: cardColumn(
                           icon: FontAwesomeIcons.venus,
                           label: 'FEMALE',
@@ -75,9 +74,58 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            // Expanded(
-            //   child: ReusableContainer(colour: activeCardColor),
-            // ),
+            Expanded(
+              child: ReusableContainer(
+                  colour: KInactiveCardColor,
+                  cardChild: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'HEIGHT',
+                        style: KLabelStyle,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            height.toString(),
+                            style: kNumberStyle,
+                          ),
+                          Text(
+                            'cm',
+                            style: KLabelStyle,
+                          )
+                        ],
+                      ),
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          inactiveTrackColor: const Color(0xFF8D8E98),
+                          activeTrackColor: Colors.white,
+                          thumbColor: const Color(0xFFEB1555),
+                          overlayColor: const Color(0x29EB1555),
+                          thumbShape: const RoundSliderThumbShape(
+                            enabledThumbRadius: 15.0,
+                          ),
+                          overlayShape:
+                              const RoundSliderThumbShape(enabledThumbRadius: 30.0),
+                        ),
+                        child: Slider(
+                          min: 100,
+                          max: 220,
+                          label: height.round().toString(),
+                          value: height.toDouble(),
+                          onChanged: (double value) {
+                            setState(() {
+                              height = value.toInt();
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  )),
+            ),
             // Expanded(
             //   child: Row(
             //     children: [
